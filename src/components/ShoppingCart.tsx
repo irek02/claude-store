@@ -2,10 +2,12 @@
 
 import { useState } from 'react'
 import { useCart } from '@/contexts/CartContext'
+import { useRouter } from 'next/navigation'
 import ProductImage from './ProductImage'
 
 interface ShoppingCartProps {
   storeId?: string
+  storeSlug?: string
   storeTheme?: {
     primaryColor: string
     secondaryColor: string
@@ -13,9 +15,10 @@ interface ShoppingCartProps {
   }
 }
 
-export default function ShoppingCart({ storeId, storeTheme }: ShoppingCartProps) {
+export default function ShoppingCart({ storeId, storeSlug, storeTheme }: ShoppingCartProps) {
   const { cart, removeFromCart, updateQuantity, getCartForStore } = useCart()
   const [isOpen, setIsOpen] = useState(false)
+  const router = useRouter()
 
   // Get items for current store if storeId is provided, otherwise show all items
   const cartItems = storeId ? getCartForStore(storeId) : cart.items
@@ -27,6 +30,13 @@ export default function ShoppingCart({ storeId, storeTheme }: ShoppingCartProps)
       removeFromCart(cartItemId)
     } else {
       updateQuantity(cartItemId, newQuantity)
+    }
+  }
+
+  const handleCheckout = () => {
+    if (storeId && storeSlug) {
+      setIsOpen(false)
+      router.push(`/stores/${storeId}/${storeSlug}/checkout`)
     }
   }
 
@@ -163,7 +173,11 @@ export default function ShoppingCart({ storeId, storeTheme }: ShoppingCartProps)
                     <strong>Total: <span className="text-theme">${total.toFixed(2)}</span></strong>
                   </div>
                   <div className="d-grid">
-                    <button className="btn btn-theme">
+                    <button 
+                      className="btn btn-theme"
+                      onClick={handleCheckout}
+                      disabled={!storeId || !storeSlug}
+                    >
                       Proceed to Checkout
                     </button>
                   </div>

@@ -16,11 +16,13 @@ export default function StorePage({ params }: StorePageProps) {
   const [store, setStore] = useState<Store | null>(null)
   const [loading, setLoading] = useState(true)
   const [storeId, setStoreId] = useState<string>('')
+  const [storeSlug, setStoreSlug] = useState<string>('')
   const { addToCart } = useCart()
 
   useEffect(() => {
     params.then((resolvedParams) => {
       setStoreId(resolvedParams.storeId)
+      setStoreSlug(resolvedParams.slug)
       const storeData = StoreManager.getStore(resolvedParams.storeId)
       setStore(storeData)
       setLoading(false)
@@ -114,7 +116,8 @@ export default function StorePage({ params }: StorePageProps) {
             </div>
             <div className="ms-3">
               <ShoppingCart 
-                storeId={store.id} 
+                storeId={store.id}
+                storeSlug={storeSlug}
                 storeTheme={{
                   primaryColor: store.theme.primaryColor,
                   secondaryColor: store.theme.secondaryColor,
