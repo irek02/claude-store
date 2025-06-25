@@ -18,6 +18,15 @@ AI-powered online store generator that creates custom stores from user prompts.
 - Basic shopping cart to add/remove products
 - Simple checkout page (no payment processing)
 
+## Setup
+
+1. Install dependencies: `npm install`
+2. Copy `.env.example` to `.env.local` and add your OpenAI API key:
+   ```
+   NEXT_PUBLIC_OPENAI_API_KEY=your_openai_api_key_here
+   ```
+3. Run the development server: `npm run dev`
+
 ## Approach
 
 - Build features incrementally one by one
