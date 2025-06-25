@@ -16,7 +16,7 @@ export class StoreGenerator {
         description: product.description,
         price: product.price,
         category: product.category,
-        imageUrl: `https://via.placeholder.com/300x300?text=${encodeURIComponent(product.name)}`,
+        imageUrl: '', // No placeholder URL, will be generated client-side
         inStock: Math.random() > 0.1
       }))
 
@@ -188,7 +188,7 @@ export class StoreGenerator {
       description: template.description,
       price: template.price,
       category: template.category,
-      imageUrl: `https://via.placeholder.com/300x300?text=${encodeURIComponent(template.name)}`,
+      imageUrl: '', // No placeholder URL, will be generated client-side
       inStock: Math.random() > 0.1
     }))
   }

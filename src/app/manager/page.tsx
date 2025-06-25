@@ -301,6 +301,12 @@ export default function Manager() {
                           View Store
                         </button>
                         <button 
+                          className="btn btn-outline-secondary btn-sm"
+                          onClick={() => router.push(`/manager/products/${store.id}`)}
+                        >
+                          Manage Products
+                        </button>
+                        <button 
                           className="btn btn-outline-danger btn-sm"
                           onClick={() => handleDeleteStore(store.id)}
                         >

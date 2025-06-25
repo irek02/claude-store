@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { Store } from '@/types/store'
+import ProductImage from '@/components/ProductImage'
 import Link from 'next/link'
 
 export default function StorePage() {
@@ -123,10 +124,9 @@ export default function StorePage() {
               {store.products.slice(0, 8).map((product) => (
                 <div key={product.id} className="col-md-6 col-lg-3 mb-4">
                   <div className="card h-100 card-theme">
-                    <img 
-                      src={product.imageUrl} 
+                    <ProductImage
+                      product={product}
                       className="card-img-top" 
-                      alt={product.name}
                       style={{ height: '200px', objectFit: 'cover' }}
                     />
                     <div className="card-body d-flex flex-column">
