@@ -35,3 +35,16 @@ export interface Store {
 export interface StoreGenerationRequest {
   prompt: string
 }
+
+export interface CartItem {
+  id: string
+  product: Product
+  quantity: number
+  storeId: string
+}
+
+export interface Cart {
+  items: CartItem[]
+  total: number
+  itemCount: number
+}

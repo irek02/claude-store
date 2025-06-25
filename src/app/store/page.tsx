@@ -2,12 +2,15 @@
 
 import { useEffect, useState } from 'react'
 import { Store } from '@/types/store'
+import { useCart } from '@/contexts/CartContext'
 import ProductImage from '@/components/ProductImage'
+import ShoppingCart from '@/components/ShoppingCart'
 import Link from 'next/link'
 
 export default function StorePage() {
   const [store, setStore] = useState<Store | null>(null)
   const [loading, setLoading] = useState(true)
+  const { addToCart } = useCart()
 
   useEffect(() => {
     const savedStore = localStorage.getItem('generatedStore')
@@ -20,6 +23,12 @@ export default function StorePage() {
     }
     setLoading(false)
   }, [])
+
+  const handleAddToCart = (product: any) => {
+    if (store) {
+      addToCart(product, store.id)
+    }
+  }
 
   if (loading) {
     return (
@@ -100,6 +109,16 @@ export default function StorePage() {
               <Link href="/store/about" className="nav-link">About</Link>
               <Link href="/store/contact" className="nav-link">Contact</Link>
             </div>
+            <div className="ms-3">
+              <ShoppingCart 
+                storeId={store.id} 
+                storeTheme={{
+                  primaryColor: store.theme.primaryColor,
+                  secondaryColor: store.theme.secondaryColor,
+                  accentColor: store.theme.accentColor
+                }}
+              />
+            </div>
           </div>
         </nav>
 
@@ -134,8 +153,12 @@ export default function StorePage() {
                       <p className="card-text text-muted flex-grow-1">{product.description}</p>
                       <div className="d-flex justify-content-between align-items-center">
                         <span className="h5 theme-primary mb-0">${product.price}</span>
-                        <button className="btn btn-theme btn-sm">
-                          Add to Cart
+                        <button 
+                          className="btn btn-theme btn-sm"
+                          onClick={() => handleAddToCart(product)}
+                          disabled={!product.inStock}
+                        >
+                          {product.inStock ? 'Add to Cart' : 'Out of Stock'}
                         </button>
                       </div>
                     </div>

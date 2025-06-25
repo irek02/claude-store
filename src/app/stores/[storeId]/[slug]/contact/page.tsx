@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { Store } from '@/types/store'
 import { StoreManager } from '@/services/storeManager'
+import ShoppingCart from '@/components/ShoppingCart'
 import Link from 'next/link'
 
 interface ContactPageProps {
@@ -118,6 +119,16 @@ export default function ContactPage({ params }: ContactPageProps) {
               <Link href={`/stores/${store.id}/${storeSlug}`} className="nav-link">Home</Link>
               <Link href={`/stores/${store.id}/${storeSlug}/about`} className="nav-link">About</Link>
               <Link href={`/stores/${store.id}/${storeSlug}/contact`} className="nav-link active">Contact</Link>
+            </div>
+            <div className="ms-3">
+              <ShoppingCart 
+                storeId={store.id} 
+                storeTheme={{
+                  primaryColor: store.theme.primaryColor,
+                  secondaryColor: store.theme.secondaryColor,
+                  accentColor: store.theme.accentColor
+                }}
+              />
             </div>
           </div>
         </nav>

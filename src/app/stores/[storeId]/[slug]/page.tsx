@@ -3,7 +3,9 @@
 import { useEffect, useState } from 'react'
 import { Store } from '@/types/store'
 import { StoreManager } from '@/services/storeManager'
+import { useCart } from '@/contexts/CartContext'
 import ProductImage from '@/components/ProductImage'
+import ShoppingCart from '@/components/ShoppingCart'
 import Link from 'next/link'
 
 interface StorePageProps {
@@ -14,6 +16,7 @@ export default function StorePage({ params }: StorePageProps) {
   const [store, setStore] = useState<Store | null>(null)
   const [loading, setLoading] = useState(true)
   const [storeId, setStoreId] = useState<string>('')
+  const { addToCart } = useCart()
 
   useEffect(() => {
     params.then((resolvedParams) => {
@@ -23,6 +26,12 @@ export default function StorePage({ params }: StorePageProps) {
       setLoading(false)
     })
   }, [params])
+
+  const handleAddToCart = (product: any) => {
+    if (store) {
+      addToCart(product, store.id)
+    }
+  }
 
   if (loading) {
     return (
@@ -103,6 +112,16 @@ export default function StorePage({ params }: StorePageProps) {
               <Link href={`/stores/${store.id}/${StoreManager.generateStoreSlug(store.name)}/about`} className="nav-link">About</Link>
               <Link href={`/stores/${store.id}/${StoreManager.generateStoreSlug(store.name)}/contact`} className="nav-link">Contact</Link>
             </div>
+            <div className="ms-3">
+              <ShoppingCart 
+                storeId={store.id} 
+                storeTheme={{
+                  primaryColor: store.theme.primaryColor,
+                  secondaryColor: store.theme.secondaryColor,
+                  accentColor: store.theme.accentColor
+                }}
+              />
+            </div>
           </div>
         </nav>
 
@@ -137,8 +156,12 @@ export default function StorePage({ params }: StorePageProps) {
                       <p className="card-text text-muted flex-grow-1">{product.description}</p>
                       <div className="d-flex justify-content-between align-items-center">
                         <span className="h5 theme-primary mb-0">${product.price}</span>
-                        <button className="btn btn-theme btn-sm">
-                          Add to Cart
+                        <button 
+                          className="btn btn-theme btn-sm"
+                          onClick={() => handleAddToCart(product)}
+                          disabled={!product.inStock}
+                        >
+                          {product.inStock ? 'Add to Cart' : 'Out of Stock'}
                         </button>
                       </div>
                     </div>
