@@ -17,3 +17,11 @@ AI-powered online store generator that creates custom stores from user prompts.
 - User can browse the generated store without logging in
 - Basic shopping cart to add/remove products
 - Simple checkout page (no payment processing)
+
+## Approach
+
+- Build features incrementally one by one
+- After coding up a feature execute `npm run build` to ensure no errors
+- Wait for the engineer to confirm that the feature works as expected
+- Commit and push updated code
+- Continue to the next feature
